@@ -126,9 +126,22 @@ def reverseList(head):
     return out
 
 
-def reverseList_O_in_time(head):
+def reverseList_in_time(head):
+    # реверс односвязного списка за О(n) с использованием трех указателей
+    if head is None:
+        return None
+    if head.next is None:
+        return head
 
-    pass
+    prev = nxt = None
+    current = head
+    while current:
+        nxt = current.next
+        current.next = prev
+        prev = current
+        current = nxt
+    head = prev
+    return head
 
 
 if __name__ == '__main__':
@@ -137,4 +150,4 @@ if __name__ == '__main__':
     head_3 = ListNode(1, ListNode(2))
 
     k_1 = 4
-    print(reverseKGroup(head_1, k_1))
+    print(reverseList_in_time(head_3))
