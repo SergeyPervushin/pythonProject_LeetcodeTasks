@@ -1,37 +1,140 @@
-from DataStructs import *
+import hmac
+
+from DataStructs import ListNode
 
 
 # 2. Add Two Numbers (Medium)
-def addTwoNumbers(l1: ListNode, l2: ListNode) -> ListNode:
-    current = ListNode()
+def addTwoNumbers(l1, l2):
     out = ListNode()
-    out.next = current
+    current = out
+    add = 0
 
-    while l1 and l2:
+    while l1 or l2:
 
-        tmp_sum = l1.val + l2.val + current.val
-
-        if tmp_sum > 9:
-            current.val = int(str(tmp_sum)[0])
-            current.next = ListNode(1)
+        if l1 is None:
+            tmp = l2.val + add
+        elif l2 is None:
+            tmp = l1.val + add
         else:
-            current.val = tmp_sum
-            current.next = ListNode()
+            tmp = l1.val + l2.val + add
+        if tmp > 9:  # сумма превышает 9, тогда в ответ кладем количество единиц, десятки (1) переносим
+            current.val = int(str(tmp)[-1])
+            add = 1
 
-        l1 = l1.next
-        l2 = l2.next
+        else:
+            current.val = tmp
+            add = 0
+        #   проверка на возможность дальнейшего прохождения по связным спискам
+        if l1 is not None:
+            l1 = l1.next
+        if l2 is not None:
+            l2 = l2.next
+        #   проверка на возможность создания следующего элемента ответа
+        if l2 or l1 is not None:
+            current.next = ListNode(add)
+            current = current.next
+
+    #   при наличии переходящего "десятка" создаем еще элемент со значением add
+    if add > 0:
+        current.next = ListNode(add)
         current = current.next
-    ListNode.out_linked_list(out.next)
-    return out.next.val
+    return out
+
+
+# 23. Merge k Sorted Lists(Hard)
+def mergeKLists(lists):
+    if len(lists) == 0 or lists.count(None) == len(lists):
+        return None
+    result = ListNode()
+    current = result
+    mega_list = []
+
+    for item in lists:
+        while item is not None:
+            mega_list.append(item.val)
+            item = item.next
+    mega_list.sort()
+    for i in range(len(mega_list) - 1):
+        current.val = mega_list[i]
+        current.next = ListNode()
+        current = current.next
+    current.val = mega_list[-1]
+    return result
+
+
+#   25. Reverse Nodes in k-Group(Hard)
+def reverseKGroup(head: ListNode, k):
+    # Проверка пограничных значений
+    if head is None:
+        return None
+    if head.next is None or k == 1:
+        return head
+
+    for_size = ptr = head
+    SIZE = 0
+    stack = []
+    result = []
+
+    while for_size:
+        SIZE += 1
+        for_size = for_size.next
+    steps = SIZE//k
+
+    while steps > 0:
+        counter = 0
+        while counter < k:
+
+            head = head.next
+            ptr.next = None
+            stack.append(ptr)
+            counter += 1
+            ptr = head
+
+        begin = end = stack.pop()
+        while stack:
+            end.next = stack.pop()
+            end = end.next
+
+        result.append([begin, end])
+        steps -= 1
+        for i in range(1, len(result)):
+            result[i - 1][1].next = result[i][0]
+        result[-1][1].next = head
+    return result[0][0]
+
+
+#   206. Reverse Linked List(Easy)
+def reverseList(head):
+    # реверс связного списка через указатель и стек
+    # указатель(p1) = head, head сдвигаем на 1, p1.next --> None(отвязываем от head)
+    if head is None:
+        return None
+    if head.next is None:
+        return head
+
+    p1 = head
+    stack = []
+    while head.next:
+        head = head.next
+        p1.next = None
+        stack.append(p1)
+        p1 = head
+    out = head
+    while stack:
+        head.next = stack.pop()
+        head = head.next
+    return out
+
+
+def reverseList_O_in_time(head):
+
+    pass
 
 
 if __name__ == '__main__':
-    l1 = [2, 4, 3]
-    l2 = [5, 6, 4]
-    linked_list_1 = ListNode.Linked_List_by_input_list(l1)
-    linked_list_2 = ListNode.Linked_List_by_input_list(l2)
+    head_1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+    head_2 = ListNode(1, ListNode(2, ListNode(3)))
+    head_3 = ListNode(1, ListNode(2))
 
-    ListNode.out_linked_list(linked_list_1)
-    ListNode.out_linked_list(linked_list_2)
-
-    print(addTwoNumbers(linked_list_1, linked_list_2))
+    k_1 = 4
+    print(reverseKGroup(head_1, k_1))
