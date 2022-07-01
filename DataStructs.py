@@ -9,8 +9,9 @@ class ListNode:
         return f'{self.val} --> {self.next}'
 
 
+# 705. DesignHashSet (Easy)
 class MyHashSet:
-
+    # Реализация через односвязный список
     def __init__(self, key=None, next_elem=None):
         self.key = key
         self.next = next_elem

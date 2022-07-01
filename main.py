@@ -129,7 +129,6 @@ def reverseList_in_time(head):
         return None
     if head.next is None:
         return head
-
     prev = nxt = None
     current = head
     while current:
@@ -141,5 +140,25 @@ def reverseList_in_time(head):
     return head
 
 
+# 19.Remove Nth Node From End of List(Medium)
+def removeNthFromEnd(head, n):
+    result = head
+    current = result
+    array = []
+    while current:
+        array.append(current)
+        current = current.next
+    if n == 1:
+        current.val = None
+    else:
+        array[-n - 1].next = array[n].next
+    return result
+
+
 if __name__ == '__main__':
 
+    new_list_1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+    new_list_2 = ListNode(1, ListNode(2))
+
+    n = 1
+    print(removeNthFromEnd(new_list_1, n))
