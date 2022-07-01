@@ -1,6 +1,4 @@
-import hmac
-
-from DataStructs import ListNode
+from DataStructs import ListNode, MyHashSet
 
 
 # 2. Add Two Numbers (Medium)
@@ -78,12 +76,11 @@ def reverseKGroup(head: ListNode, k):
     while for_size:
         SIZE += 1
         for_size = for_size.next
-    steps = SIZE//k
+    steps = SIZE // k
 
     while steps > 0:
         counter = 0
         while counter < k:
-
             head = head.next
             ptr.next = None
             stack.append(ptr)
@@ -145,9 +142,4 @@ def reverseList_in_time(head):
 
 
 if __name__ == '__main__':
-    head_1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
-    head_2 = ListNode(1, ListNode(2, ListNode(3)))
-    head_3 = ListNode(1, ListNode(2))
 
-    k_1 = 4
-    print(reverseList_in_time(head_3))
