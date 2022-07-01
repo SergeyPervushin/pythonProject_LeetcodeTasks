@@ -145,13 +145,10 @@ def removeNthFromEnd(head, n):
     result = head
     current = result
     array = []
-    while current:
+    while current.next:
         array.append(current)
         current = current.next
-    if n == 1:
-        current.val = None
-    else:
-        array[-n - 1].next = array[n].next
+    array.append(current)
     return result
 
 
