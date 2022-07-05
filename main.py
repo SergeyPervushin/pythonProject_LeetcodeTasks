@@ -1,4 +1,4 @@
-from DataStructs import ListNode, MyHashSet
+from DataStructs import ListNode, MyHashSet, BinaryTree
 
 
 # 2. Add Two Numbers (Medium)
@@ -142,6 +142,8 @@ def reverseList_in_time(head):
 
 # 19.Remove Nth Node From End of List(Medium)
 def removeNthFromEnd(head, n):
+    if head.next is None:
+        return None
     result = head
     current = result
     array = []
@@ -149,13 +151,15 @@ def removeNthFromEnd(head, n):
         array.append(current)
         current = current.next
     array.append(current)
+    # если нужно удалить по факту первый элемент списка, то просто result --> остальная часть минус первый эл-т
+    if len(array) == n:
+        result = array[-n].next
+    else:
+        i = len(array) - 1 - n
+        array[i].next = array[i + 1].next
     return result
 
 
 if __name__ == '__main__':
-
-    new_list_1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
-    new_list_2 = ListNode(1, ListNode(2))
-
-    n = 1
-    print(removeNthFromEnd(new_list_1, n))
+    new_tree = BinaryTree(2, BinaryTree(1, BinaryTree(0), 2), BinaryTree(3))
+    print(new_tree)

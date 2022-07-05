@@ -9,6 +9,16 @@ class ListNode:
         return f'{self.val} --> {self.next}'
 
 
+class BinaryTree:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+    def __repr__(self):
+        return f'{self.left} <-- {self.val} --> {self.right}'
+
+
 # 705. DesignHashSet (Easy)
 class MyHashSet:
     # Реализация через односвязный список
