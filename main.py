@@ -1,4 +1,4 @@
-from DataStructs import ListNode, MyHashSet, BinaryTree
+from DataStructs import ListNode, MyHashSet, TreeNode
 
 
 # 2. Add Two Numbers (Medium)
@@ -162,17 +162,19 @@ def removeNthFromEnd(head, n):
 
 #   101. Symmetric Tree(Easy)
 def isSymmetric(self, root) -> bool:
-    if root.left and root.right is None:
+    if root is None:
         return True
+    return isMetric(root.left, root.right)
 
-    left_root = root.left
-    right_root = root.right
-    while left_root and right_root:
-        pass
 
-    pass
+def isMetric(left, right):
+    if left is None or right is None:
+        return left == right
+    if left.val != right.val:
+        return False
+    return isMetric(left.left, right.right) and isMetric(left.right, right.left)
 
 
 if __name__ == '__main__':
-    new_tree = BinaryTree(2, BinaryTree(1, BinaryTree(0), 2), BinaryTree(3))
+    new_tree = TreeNode(1)
     print(new_tree)
