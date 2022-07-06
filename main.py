@@ -160,6 +160,19 @@ def removeNthFromEnd(head, n):
     return result
 
 
+#   101. Symmetric Tree(Easy)
+def isSymmetric(self, root) -> bool:
+    if root.left and root.right is None:
+        return True
+
+    left_root = root.left
+    right_root = root.right
+    while left_root and right_root:
+        pass
+
+    pass
+
+
 if __name__ == '__main__':
     new_tree = BinaryTree(2, BinaryTree(1, BinaryTree(0), 2), BinaryTree(3))
     print(new_tree)
