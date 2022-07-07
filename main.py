@@ -167,6 +167,7 @@ def isSymmetric(self, root) -> bool:
     return isMetric(root.left, root.right)
 
 
+# функция для рекурсивного вызова, вспомогательная для задачи 101
 def isMetric(left, right):
     if left is None or right is None:
         return left == right
@@ -175,6 +176,28 @@ def isMetric(left, right):
     return isMetric(left.left, right.right) and isMetric(left.right, right.left)
 
 
+def isInterleave(s1: str, s2: str, s3: str):
+    total_string = s1 + s2
+    # test cases
+    trigger = True
+    i = 0
+    j = min(len(s1), len(s2))
+
+    for item in s3:
+        if item == total_string[i]:
+            i += 1
+            continue
+        if item == total_string[j]:
+            j += 1
+            continue
+        else:
+            trigger = False
+    return trigger
+
+
 if __name__ == '__main__':
-    new_tree = TreeNode(1)
-    print(new_tree)
+    s1 = "aabcc"
+    s2 = "dbbca"
+    s3 = "aadbbcbcac"
+
+    print(isInterleave(s1, s2, s3))
