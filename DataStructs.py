@@ -18,6 +18,13 @@ class TreeNode:
     def __repr__(self):
         return f'{self.left} <-- {self.val} --> {self.right}'
 
+    @staticmethod
+    def inOrder(root):
+        if root:
+            print(root.val)
+            root.inOrder(root.left)
+            root.inOrder(root.right)
+
 
 # 705. DesignHashSet (Easy)
 class MyHashSet:
@@ -66,3 +73,31 @@ class MyHashSet:
     def __repr__(self):
         return f'{self.key} --> {self.next}'
 
+
+def binary_search_for_all_steps(nums, target):
+    begin = 0
+    end = len(nums) - 1
+    while begin <= end:
+        mid = begin + (end - begin)//2
+
+        if nums[mid] >= target:
+            end = mid - 1
+        if nums[mid] < target:
+            begin = mid + 1
+    if nums[begin] == target:
+        return begin
+    return -1
+
+
+def binary_search_for_quick_find(nums, target):
+    start = 0
+    end = len(nums) - 1
+    while start <= end:
+        mid = start + (end - start) // 2
+        if nums[mid] == target:
+            return True
+        if nums[mid] > target:
+            end = mid - 1
+        if nums[mid] < target:
+            start = mid + 1
+    return False

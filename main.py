@@ -1,4 +1,5 @@
 from DataStructs import ListNode, MyHashSet, TreeNode
+from DataStructs import binary_search_for_all_steps, binary_search_for_quick_find
 
 
 # 2. Add Two Numbers (Medium)
@@ -176,6 +177,8 @@ def isMetric(left, right):
     return isMetric(left.left, right.right) and isMetric(left.right, right.left)
 
 
+# нужно реализовать "переключатель", так как при нахождении подстроки в строке требует проверить
+# эту же строку на следующем шаге итерации
 def isInterleave(s1: str, s2: str, s3: str):
     total_string = s1 + s2
     # test cases
@@ -195,9 +198,41 @@ def isInterleave(s1: str, s2: str, s3: str):
     return trigger
 
 
-if __name__ == '__main__':
-    s1 = "aabcc"
-    s2 = "dbbca"
-    s3 = "aadbbcbcac"
+# 1302. Deepest Leaves Sum(Easy)
+def deepestLeavesSum(root):
+    if not root:
+        return
+    if not root.left and not root.right:
+        if root:
+            [].append(root.val)
+    return sum(deepestLeavesSum(root.left), deepestLeavesSum(root.right))
 
-    print(isInterleave(s1, s2, s3))
+
+# 315. Count of Smaller Numbers After Self(Hard)
+def countSmaller(nums):
+    result = []
+    sorted_nums = sorted(nums)
+    for item in nums:
+        tmp = binary_search_for_all_steps(sorted_nums, item)
+        result.append(tmp)
+        sorted_nums.pop(tmp)
+    return result
+
+
+# 240. Search a 2D Matrix II(medium)
+def searchMatrix(matrix, target) -> bool:
+
+    flag = False
+    for item in matrix:
+        flag = binary_search_for_quick_find(item, target)
+        if flag is True:
+            return flag
+    return flag
+
+
+if __name__ == '__main__':
+
+    nums_4 = [[1, 4, 7, 11, 15], [2, 5, 8, 12, 19], [3, 6, 9, 16, 22], [10, 13, 14, 17, 24], [18, 21, 23, 26, 30]]
+    x = 55
+    print(searchMatrix(nums_4, x))
+
