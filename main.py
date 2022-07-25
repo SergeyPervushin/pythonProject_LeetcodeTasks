@@ -1,6 +1,6 @@
-from DataStructs import ListNode, MyHashSet, TreeNode
-from DataStructs import binary_search_for_all_steps, binary_search_for_quick_find
-
+from DataStructs import ListNode
+from HelperMethods import binary_search_for_all_steps, binary_search_for_quick_find
+from HelperMethods import bin_search_for_34_first_index, bin_search_for_34_last_index
 
 # 2. Add Two Numbers (Medium)
 def addTwoNumbers(l1, l2):
@@ -221,7 +221,6 @@ def countSmaller(nums):
 
 # 240. Search a 2D Matrix II(medium)
 def searchMatrix(matrix, target) -> bool:
-
     flag = False
     for item in matrix:
         flag = binary_search_for_quick_find(item, target)
@@ -230,9 +229,34 @@ def searchMatrix(matrix, target) -> bool:
     return flag
 
 
+# 167. Two Sum II - Input Array Is Sorted
+def twoSum(numbers, target):
+    for i in range(len(numbers) - 1):
+        start = i + 1
+        end = len(numbers) - 1
+        while start <= end:
+            mid = start + (end - start) // 2
+            if numbers[i] + numbers[mid] == target:
+                return [i + 1, mid + 1]
+
+            if numbers[i] + numbers[mid] > target:
+                end = mid - 1
+            if numbers[i] + numbers[mid] < target:
+                start = mid + 1
+
+
+# 34. Find First and Last Position of Element in Sorted Array
+def searchRange(nums, target):
+    if len(nums) < 1:
+        return [-1, -1]
+    first = bin_search_for_34_first_index(nums, target)
+    last = bin_search_for_34_last_index(nums, target)
+    return [first, last]
+
+
 if __name__ == '__main__':
-
-    nums_4 = [[1, 4, 7, 11, 15], [2, 5, 8, 12, 19], [3, 6, 9, 16, 22], [10, 13, 14, 17, 24], [18, 21, 23, 26, 30]]
-    x = 55
-    print(searchMatrix(nums_4, x))
-
+    nums_1 = [5,7,7,8,8,8,8,10]
+    nums_2 = [1, 2, 3]
+    target = 2
+    print(searchRange(nums_1, target))
+    print(searchRange(nums_2, target))
