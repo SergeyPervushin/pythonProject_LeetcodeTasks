@@ -1,6 +1,10 @@
-from DataStructs import ListNode
+import collections
+
+from DataStructs import ListNode, TreeNode
 from HelperMethods import binary_search_for_all_steps, binary_search_for_quick_find
 from HelperMethods import bin_search_for_34_first_index, bin_search_for_34_last_index
+from HelperMethods import pattern_of_string
+
 
 # 2. Add Two Numbers (Medium)
 def addTwoNumbers(l1, l2):
@@ -254,9 +258,103 @@ def searchRange(nums, target):
     return [first, last]
 
 
+# 344. Reverse String(Easy)
+def reverseString(s) -> None:
+    ptr_1 = 0
+    ptr_2 = len(s) - 1
+    while ptr_1 <= len(s) // 2 <= ptr_2:
+        s[ptr_1], s[ptr_2] = s[ptr_2], s[ptr_1]
+        ptr_1 += 1
+        ptr_2 -= 1
+    return s
+
+
+# 557. Reverse Words in a String III(Easy)
+def reverseWords(s: str) -> str:
+    result = []
+    s_list = s.split(' ')
+    for item in s_list:
+        tmp = [x for x in item]
+        tmp.reverse()
+        result.append(''.join(tmp))
+    s_result = ' '.join(result)
+    return s_result
+
+
+# 236. Lowest Common Ancestor of a Binary Tree
+def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode):
+    if not root or root == p or root == q:
+        return root
+    left = lowestCommonAncestor(root.left, p, q)
+    right = lowestCommonAncestor(root.right, p, q)
+
+    if left and right:
+        return root
+    else:
+        return left or right
+
+
+def checkInclusion(s1: str, s2: str) -> bool:
+    s1_counter = collections.Counter(s1)
+    s1_len = len(s1)
+
+    for i in range(len(s2) - s1_len + 1):
+        if collections.Counter(s2[i: i + s1_len]) == s1_counter:
+            return True
+    return False
+
+
+# 733. Flood Fill(Easy)
+def floodFill(image, sr, sc, color):
+    if image[sr][sc] == color:
+        return image
+    old_color = image[sr][sc]
+    stack = [(sr, sc)]
+    while stack:
+        i, j = stack.pop()
+        if image[i][j] == old_color:
+            image[i][j] = color
+            if i + 1 < len(image):
+                stack.append((i + 1, j))
+            if i - 1 >= 0:
+                stack.append((i - 1, j))
+            if j + 1 < len(image[0]):
+                stack.append((i, j + 1))
+            if j - 1 >= 0:
+                stack.append((i, j - 1))
+    return image
+
+
+# 695. Max Area of Island(Medium)
+def maxAreaOfIsland(grid):
+    def dfs(i, j):
+        if 0 <= i < len(grid) and 0 <= j < len(grid[0]) and grid[i][j] == 1:
+            grid[i][j] = 0
+            return 1 + dfs(i + 1, j) + dfs(i - 1, j) + dfs(i, j + 1) + dfs(i, j - 1)
+        return 0
+
+    ans = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == 1:
+                ans = max(ans, dfs(i, j))
+    return ans
+
+
+# 890. Find and Replace Pattern
+def findAndReplacePattern(words, pattern):
+    result = []
+    check_ptrn = pattern_of_string(pattern)
+    for item in words:
+        tmp = pattern_of_string(item)
+        if tmp == check_ptrn:
+            result.append(item)
+    return result
+
+
 if __name__ == '__main__':
-    nums_1 = [5,7,7,8,8,8,8,10]
-    nums_2 = [1, 2, 3]
-    target = 2
-    print(searchRange(nums_1, target))
-    print(searchRange(nums_2, target))
+    words = ["badc", "abab", "dddd", "dede", "yyxx"]
+    pattern = "baba"
+
+    print(findAndReplacePattern(words, pattern))
+

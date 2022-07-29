@@ -1,3 +1,6 @@
+import collections
+
+
 def binary_search_for_all_steps(nums, target):
     begin = 0
     end = len(nums) - 1
@@ -58,3 +61,18 @@ def bin_search_for_34_last_index(nums, target):
     if nums[end] == target:
         return end
     return -1
+
+
+def pattern_of_string(s: str):  # return dict like this: {number of letters: (index_1, index_2, index_n) }
+    count_dict = collections.Counter(s)
+    indexes = []
+    output_dict = {}
+    for item in count_dict.keys():
+        tmp = [i for i, ltr in enumerate(s) if ltr == item]
+        indexes.append(tmp)
+    for i, item in enumerate(count_dict.keys()):
+        output_dict[item] = indexes[i]
+
+    return list(output_dict.values())
+
+
