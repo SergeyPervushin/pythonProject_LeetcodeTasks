@@ -352,9 +352,48 @@ def findAndReplacePattern(words, pattern):
     return result
 
 
-if __name__ == '__main__':
-    words = ["badc", "abab", "dddd", "dede", "yyxx"]
-    pattern = "baba"
+# 542. 01 Matrix(HAD TO DO!!!!)
+def updateMatrix(mat):
+    result = [[0]*len(mat)]*len(mat[0])
+    for i in range(len(mat)):
+        for j in range(len(mat[0])):
+            pass
+    return result
 
-    print(findAndReplacePattern(words, pattern))
+
+# 617. Merge Two Binary Trees
+def mergeTrees(root1, root2):
+    pass
+
+
+class MyCalendar:
+
+    def __init__(self):
+        self.storage = []
+
+    def __repr__(self):
+        return f'storage {self.storage}'
+
+    def book(self, start: int, end: int) -> bool:
+
+        if len(self.storage) == 0:
+            self.storage.append([start, end])
+            return True
+        else:
+            for item in self.storage:
+                if item[0] < end and start < item[1]:
+                    return False
+            self.storage.append([start, end])
+            return True
+
+
+if __name__ == '__main__':
+    obj = MyCalendar()
+    add_1 = obj.book(10, 20)
+    add_2 = obj.book(15, 25)
+    add_3 = obj.book(20, 30)
+    print(add_1, add_2, add_3)
+    # rng1 = set(range(1, 5))
+    # rng2 = set(range(5, 8))
+    # print(len(rng2 & rng1))
 
