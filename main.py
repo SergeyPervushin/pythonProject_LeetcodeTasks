@@ -354,7 +354,7 @@ def findAndReplacePattern(words, pattern):
 
 # 542. 01 Matrix(HAD TO DO!!!!)
 def updateMatrix(mat):
-    result = [[0]*len(mat)]*len(mat[0])
+    result = [[0] * len(mat)] * len(mat[0])
     for i in range(len(mat)):
         for j in range(len(mat[0])):
             pass
@@ -387,13 +387,39 @@ class MyCalendar:
             return True
 
 
+def hammingWeight(n: int) -> int:
+    tmp = bin(n)
+    pass
+
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        res = []
+
+        def dfs(i, cur, total):
+            if total == target:
+                res.append()
+                return
+            if i >= len(nums) or total > target:
+                return
+
+            cur.append(nums[i])
+            dfs(i, cur, total + nums[i])
+            cur.pop()
+            dfs(i + 1, cur, total)
+
+        dfs(0, [], 0)
+        return res
+
+
+def combinationSum4(nums, target) -> int:
+    dp = [0] * (target + 1)
+    dp[0] = 1
+    for i in range(1, target + 1):
+        for item in nums:
+            if i >= item:
+                dp[i] += dp[i - item]
+    return dp[target]
+
+
 if __name__ == '__main__':
-    obj = MyCalendar()
-    add_1 = obj.book(10, 20)
-    add_2 = obj.book(15, 25)
-    add_3 = obj.book(20, 30)
-    print(add_1, add_2, add_3)
-    # rng1 = set(range(1, 5))
-    # rng2 = set(range(5, 8))
-    # print(len(rng2 & rng1))
+    n = 155
 
