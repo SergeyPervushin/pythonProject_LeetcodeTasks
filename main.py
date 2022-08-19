@@ -4,6 +4,7 @@ from DataStructs import ListNode, TreeNode
 from HelperMethods import binary_search_for_all_steps, binary_search_for_quick_find
 from HelperMethods import bin_search_for_34_first_index, bin_search_for_34_last_index
 from HelperMethods import pattern_of_string
+from typing import List
 
 
 # 2. Add Two Numbers (Medium)
@@ -420,6 +421,75 @@ def combinationSum4(nums, target) -> int:
     return dp[target]
 
 
-if __name__ == '__main__':
-    n = 155
+def findTheDifference(s: str, t: str) -> str:
+    lst_s = list(s)
+    lst_t = list(t)
+    while lst_s:
+        lst_t.remove(lst_s[-1])
+        lst_s.pop(-1)
+    return lst_t[0]
 
+
+# 804. Unique Morse Code Words(Easy)
+def uniqueMorseRepresentations(words) -> int:
+    alpha = {'a': ".-",
+             'b': '-...',
+             'c': '-.-.',
+             'd': '-..',
+             'e': '.',
+             'f': "..-.",
+             'g': "--.",
+             'h': "....",
+             'i': "..",
+             'j': ".---",
+             'k': "-.-",
+             'l': ".-..",
+             'm': "--",
+             'n': "-.",
+             'o': "---",
+             'p': ".--.",
+             'q': "--.-",
+             'r': ".-.",
+             's': "...",
+             't': "-",
+             'u': "..-",
+             'v': "...-",
+             'w': ".--",
+             'x': "-..-",
+             'y': "-.--",
+             'z': "--.."}
+    result = set()
+    for item in words:
+        new_word = ''
+        for lett in item:
+            new_word += alpha[lett]
+        result.add(new_word)
+    return len(result)
+
+
+def minSetSize(arr: List) -> int:
+    SIZE = len(arr)
+    result = set()
+    lst = []
+    for item in set(arr):
+        lst.append([arr.count(item), item])
+    lst.sort(reverse=1)
+    for item in lst:
+        result.add(item[1])
+        while item[1] in arr:
+            arr.remove(item[1])
+            if len(arr) <= SIZE/2:
+                return len(result)
+    return len(result)
+
+
+if __name__ == '__main__':
+    arr_1 = [3, 3, 3, 3, 5, 5, 5, 2, 2, 7]
+    arr_2 = [7, 7, 7, 7, 7, 7]
+    arr_3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    arr_4 = [9, 77, 63, 22, 92, 9, 14, 54, 8, 38, 18, 19, 38, 68, 58, 19]
+
+    print(minSetSize(arr_1))
+    print(minSetSize(arr_2))
+    print(minSetSize(arr_3))
+    print(minSetSize(arr_4))
