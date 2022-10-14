@@ -5,6 +5,7 @@ from HelperMethods import binary_search_for_all_steps, binary_search_for_quick_f
 from HelperMethods import bin_search_for_34_first_index, bin_search_for_34_last_index
 from HelperMethods import pattern_of_string
 from typing import List
+from math import log
 
 
 # 2. Add Two Numbers (Medium)
@@ -478,18 +479,91 @@ def minSetSize(arr: List) -> int:
         result.add(item[1])
         while item[1] in arr:
             arr.remove(item[1])
-            if len(arr) <= SIZE/2:
+            if len(arr) <= SIZE / 2:
                 return len(result)
     return len(result)
 
 
-if __name__ == '__main__':
-    arr_1 = [3, 3, 3, 3, 5, 5, 5, 2, 2, 7]
-    arr_2 = [7, 7, 7, 7, 7, 7]
-    arr_3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    arr_4 = [9, 77, 63, 22, 92, 9, 14, 54, 8, 38, 18, 19, 38, 68, 58, 19]
+def isPowerOfFour(n: int) -> bool:
+    return log(n, 4) / round(log(n, 4)) == 1
 
-    print(minSetSize(arr_1))
-    print(minSetSize(arr_2))
-    print(minSetSize(arr_3))
-    print(minSetSize(arr_4))
+
+def isPalindromeWithStack(head) -> bool:
+    stack = []
+    while head:
+        stack.append(head.val)
+        head = head.next
+    if len(stack) % 2 == 0:
+        return stack[:len(stack) // 2 + len(stack) % 2] == stack[-1: -len(stack) // 2 - len(stack) % 2 - 1: -1]
+    else:
+
+        return stack[:len(stack) // 2 + len(stack) % 2] == stack[-1: -len(stack) // 2 - len(stack) % 2: -1]
+
+
+def numberOfWeakCharacters(properties: List[List[int]]) -> int:
+    properties.sort()
+    return properties
+
+
+# 1328 Break a Palindrome
+def breakPalindrome(palindrome: str) -> str:
+    if len(palindrome) == 1:
+        return ''
+
+    for i in range(0, len(palindrome) // 2):  # проходим только по половине полиндрома
+
+        if palindrome[i] != 'a':
+            tmp = list(palindrome)
+            tmp[i] = 'a'
+            return ''.join(tmp)
+
+    return palindrome[:-1] + 'b'  # по условию задачи, если все элементы строки == 'a', в конце надо заменить на 'a'
+
+
+#   334. Increasing Triplet Subsequence
+def increasingTriplet(nums: List[int]) -> bool:
+    first = second = float('inf')
+    for n in nums:
+        if n <= first:
+            first = n
+        elif n <= second:
+            second = n
+        else:
+            return True
+    return False
+
+
+#976. Largest Perimeter Triangle
+def largestPerimeter(nums: List[int]) -> int:
+    nums.sort(reverse=1)
+    for i in range(0, len(nums) - 2):
+        if nums[i] + nums[i + 1] > nums[i + 2] and nums[i + 1] + nums[i + 2] > nums[i] and nums[i] + nums[i + 2] > nums[
+            i + 1]:
+            return nums[i] + nums[i + 1] + nums[i + 2]
+    return 0
+
+
+def deleteMiddle(head):
+    if not head.next:
+        return None
+    if not head.next.next:
+        head.next = None
+        return head
+    fast = slow = prev = head
+    while fast and fast.next:
+        prev = slow
+        slow = slow.next
+        fast = fast.next.next
+    prev.next = slow.next
+
+    return head
+
+
+if __name__ == '__main__':
+    l_1 = ListNode(1, ListNode(3, ListNode(4, ListNode(7, ListNode(1, ListNode(2, ListNode(6)))))))
+    l_2 = ListNode(1, ListNode(2, ListNode(3, ListNode(4))))
+    l_3 = ListNode(1, ListNode(2, ListNode(3)))
+    print(deleteMiddle(l_1))
+    print(deleteMiddle(l_2))
+    print(deleteMiddle(l_3))
+
