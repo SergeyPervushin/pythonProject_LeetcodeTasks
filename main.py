@@ -533,7 +533,7 @@ def increasingTriplet(nums: List[int]) -> bool:
     return False
 
 
-#976. Largest Perimeter Triangle
+# 976. Largest Perimeter Triangle
 def largestPerimeter(nums: List[int]) -> int:
     nums.sort(reverse=1)
     for i in range(0, len(nums) - 2):
@@ -559,11 +559,34 @@ def deleteMiddle(head):
     return head
 
 
-if __name__ == '__main__':
-    l_1 = ListNode(1, ListNode(3, ListNode(4, ListNode(7, ListNode(1, ListNode(2, ListNode(6)))))))
-    l_2 = ListNode(1, ListNode(2, ListNode(3, ListNode(4))))
-    l_3 = ListNode(1, ListNode(2, ListNode(3)))
-    print(deleteMiddle(l_1))
-    print(deleteMiddle(l_2))
-    print(deleteMiddle(l_3))
+# 1832. Check if the Sentence Is Pangram
+def checkIfPangram(sentence) -> bool:
+    return sorted(set(sentence)) == ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+                                     'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
+
+# 219. Contains Duplicate II
+def containsNearbyDuplicate(nums: List[int], k: int) -> bool:
+    dct_of_duplicate = {}
+    for num in set(nums):
+        dct_of_duplicate[num] = nums.index(num)
+    print(dct_of_duplicate)
+    for i, item in enumerate(nums):
+        if i - dct_of_duplicate[item] == 0:
+            continue
+        if abs(dct_of_duplicate[item] - i) <= k:
+            return True
+    return False
+
+
+if __name__ == '__main__':
+
+    l_1 = [1,2,3,1]
+    k_1 = 3
+
+    l_2 = [1,0,1,1]
+    k_2 = 1
+
+    l_3 = [1,2,3,1,2,3]
+    k_3 = 2
+    print(containsNearbyDuplicate(l_2, k_2))
