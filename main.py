@@ -565,7 +565,7 @@ def checkIfPangram(sentence) -> bool:
                                      'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
 
-# 219. Contains Duplicate II
+# 219. Contains Duplicate II !!!!!
 def containsNearbyDuplicate(nums: List[int], k: int) -> bool:
     dct_of_duplicate = {}
     for num in set(nums):
@@ -579,14 +579,150 @@ def containsNearbyDuplicate(nums: List[int], k: int) -> bool:
     return False
 
 
+#  1239. Maximum Length of a Concatenated String with Unique Characters !!!
+def maxLength(arr: List[str]) -> int:
+    if len(arr) == 1:
+        return len(arr[0])
+    pass
+
+
+# 1662. Check If Two String Arrays are Equivalent
+def arrayStringsAreEqual(word1: List[str], word2: List[str]) -> bool:
+    return ''.join(word1) == ''.join(word2)
+
+
+#   523. Continuous Subarray Sum (Nested loop approach) ----> to slow
+def checkSubarraySum(nums: List[int], k: int) -> bool:
+    for i in range(len(nums)):
+        tmp = nums[i]
+        for j in range(i + 1, len(nums)):
+            tmp += nums[j]
+            if tmp % k == 0:
+                return True
+    return False
+
+
+#   523. Continuous Subarray Sum (Hash map approach) big O(n) complexity
+def checkSubarraySum_hash_map(nums: List[int], k: int) -> bool:
+    hash_map = {0: 0}
+    s = 0
+    for i in range(len(nums)):
+        s += nums[i]
+        tmp = s % k
+        if tmp not in hash_map:
+            hash_map[tmp] = i + 1
+        elif hash_map[tmp] < i:
+            return True
+    return False
+
+
+#   49. Group Anagrams
+def groupAnagrams(strs: List[str]) -> List[List[str]]:
+    ans = {}
+    for item in strs:
+        ans[tuple(sorted(item))] = []
+    for i in strs:
+        ans[tuple(sorted(i))].append(i)
+    return ans.values()
+
+
+#   2131. Longest Palindrome by Concatenating Two Letter Words
+def longestPalindrome(self, words: List[str]) -> int:
+    pass
+
+
+#   1323. Maximum 69 Number
+def maximum69Number(num: int) -> int:
+    lst = list(str(num))
+    for i in range(len(lst)):
+        if lst[i] == '6':
+            lst[i] = '9'
+            return int(''.join(lst))
+    return num
+
+
+#   345. Reverse Vowels of a String
+def reverseVowels(s: str) -> str:
+    lst_from_s = list(s)
+    vowels = ('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U')
+    begin_ptr = 0
+    end_ptr = len(s) - 1
+    while begin_ptr < len(s) // 2:
+        if lst_from_s[begin_ptr] in vowels and lst_from_s[end_ptr] in vowels:
+            lst_from_s[begin_ptr], lst_from_s[end_ptr] = lst_from_s[end_ptr], lst_from_s[begin_ptr]
+            begin_ptr += 1
+            end_ptr -= 1
+
+        elif lst_from_s[begin_ptr] not in vowels and lst_from_s[end_ptr] in vowels:
+            begin_ptr += 1
+
+        elif lst_from_s[begin_ptr] in vowels and lst_from_s[end_ptr] not in vowels:
+            end_ptr -= 1
+        elif lst_from_s[begin_ptr] not in vowels and lst_from_s[end_ptr] not in vowels:
+            begin_ptr += 1
+            end_ptr -= 1
+
+    return ''.join(lst_from_s)
+
+
+#   1544. Make The String Great
+def makeGood(s: str) -> str:
+    if len(s) == 1:
+        return s
+    stack = []
+    for item in s:
+        stack.append(item)
+        if len(stack) >= 2:
+            if stack[-1] != stack[-2]:
+                if stack[-1] == stack[-2].upper() or stack[-1] == stack[-2].lower():
+                    stack.pop(-1)
+                    stack.pop(-1)
+    return ''.join(stack)
+
+
+#   1047. Remove All Adjacent Duplicates In String
+def removeDuplicates(s: str) -> str:
+    stack = []
+    for item in s:
+        stack.append(item)
+        if len(stack) >= 2:
+            if stack[-1] == stack[-2]:
+                stack.pop(-1)
+                stack.pop(-1)
+    return ''.join(stack)
+
+
+# 901. Online Stock Span
+class StockSpanner:
+
+    def __init__(self):
+        self.stack = []
+
+    def __repr__(self):
+        return f'{self.stack}'
+
+    def next(self, price: int) -> int:
+        if len(self.stack) == 0:
+            self.stack.append(price)
+            return 1
+        self.stack.insert(0, price)
+        count = 1
+        for i in range(1, len(self.stack)):
+            if price < self.stack[i]:
+                return count
+            count += 1
+        return count
+
+
 if __name__ == '__main__':
-
-    l_1 = [1,2,3,1]
-    k_1 = 3
-
-    l_2 = [1,0,1,1]
-    k_2 = 1
-
-    l_3 = [1,2,3,1,2,3]
-    k_3 = 2
-    print(containsNearbyDuplicate(l_2, k_2))
+    s = StockSpanner()
+    print(s)
+    print(s.next(31))
+    print(s.next(41))
+    print(s.next(48))
+    print(s.next(48))
+    print(s.next(59))
+    print(s.next(79))
+    print(s.next(75))
+    print(s.next(95))
+    print(s.next(85))
