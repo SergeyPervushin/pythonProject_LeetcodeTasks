@@ -1,3 +1,4 @@
+import bisect
 import collections
 
 from DataStructs import ListNode, TreeNode
@@ -693,6 +694,7 @@ def removeDuplicates(s: str) -> str:
 
 
 # 901. Online Stock Span
+# ---------------------------------------------------------
 class StockSpanner:
 
     def __init__(self):
@@ -702,27 +704,102 @@ class StockSpanner:
         return f'{self.stack}'
 
     def next(self, price: int) -> int:
-        if len(self.stack) == 0:
-            self.stack.append(price)
-            return 1
-        self.stack.insert(0, price)
-        count = 1
-        for i in range(1, len(self.stack)):
-            if price < self.stack[i]:
-                return count
-            count += 1
-        return count
+        day = 1
+        while self.stack and self.stack[-1][0] <= price:
+            day += self.stack.pop()[1]
+
+        self.stack.append((price, day))
+        return day
+
+
+# ---------------------------------------------------------
+
+
+class RandomizedSet:
+
+    def __init__(self):
+        self.randomSet = set()
+
+    def __repr__(self):
+        return f'{self.randomSet}'
+
+    def insert(self, val: int) -> bool:  # OK
+        out = len(self.randomSet - {val}) == len(self.randomSet)
+        self.randomSet.add(val)
+        return out
+
+    def remove(self, val: int) -> bool:
+        out = self.randomSet.issuperset({val})
+        if out:
+            self.randomSet.remove(val)
+        return out
+
+    def getRandom(self) -> int:
+        for i, item in enumerate(self.randomSet):
+            print(i, item)
+
+
+# 55. Jump Game
+""" You are given an integer array nums. You are initially positioned at the array's first index, 
+and each element in the array represents your maximum jump length at that position.
+Return true if you can reach the last index, or false otherwise."""
+
+
+def canJump(nums: List[int]) -> bool:
+    pass
+
+
+# 2389. Longest Subsequence With Limited Sum(Easy, why??)
+def answerQueries(nums: List[int], queries: List[int]) -> List[int]:
+    nums.sort()
+    answer = []
+    for i in range(1, len(nums)):
+        nums[i] += nums[i - 1]
+
+    for query in queries:
+        start = 0
+        end = len(nums) - 1
+        while start <= end:
+            mid = (start + end) // 2
+            if query < nums[mid]:
+                end = mid - 1
+            else:
+                start = mid + 1
+        answer.append(end + 1)
+    return answer
+
+
+# 2390. Removing Stars From a String
+def removeStars(s: str) -> str:
+    stack = []
+    for letter in s:
+        stack.append(letter)
+        if stack[-1] == '*':
+            stack.pop(-1)
+            stack.pop(-1)
+
+    return ''.join(stack)
+
+
+# 2279. Maximum Bags With Full Capacity of Rocks
+def maximumBags(capacity: List[int], rocks: List[int], additionalRocks: int) -> int:
+    answer = 0  # number of full bags
+    i = 0
+    while additionalRocks > 0 or i < len(capacity):
+        dif = capacity[i] - rocks[i]
+        if dif > 0:
+            additionalRocks -= dif
+
+        if dif < 0:
+            additionalRocks -= dif
+        else:
+            answer += 1
+            i += 1
+    return answer
 
 
 if __name__ == '__main__':
-    s = StockSpanner()
-    print(s)
-    print(s.next(31))
-    print(s.next(41))
-    print(s.next(48))
-    print(s.next(48))
-    print(s.next(59))
-    print(s.next(79))
-    print(s.next(75))
-    print(s.next(95))
-    print(s.next(85))
+    capacity = [2, 3, 4, 5]
+    rocks = [2, 3, 4, 4]
+    additionalRocks = 2
+    print(maximumBags(capacity, rocks, additionalRocks))

@@ -76,3 +76,5 @@ def pattern_of_string(s: str):  # return dict like this: {number of letters: (in
     return list(output_dict.values())
 
 
+
+
